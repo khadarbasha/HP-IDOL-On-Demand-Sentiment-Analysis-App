@@ -1,0 +1,12 @@
+<div class="span6 well">
+  <legend>
+    Search Tweets By HashTag
+    <hr>
+  </legend>
+  <%= form_for :user_pick , :url => search_tweets_path, :method => "get" do |f| %>
+  <div class="input-append">
+    <%= f.text_field :hash_tag, class:"input-xlarge", placeholder: "Default hashtag is #f1"%>
+    <%= f.submit :Search, class:"input-medium btn btn-info"%>
+  </div>
+  <% end %>
+</div>

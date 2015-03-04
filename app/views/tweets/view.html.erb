@@ -1,0 +1,111 @@
+<div class="span9 offset1">
+  <div class="well">
+    <b>
+      Tweet Details
+    </b>
+    <table class="table">
+      <thread>
+        <tr>
+          <th>Original Text</th>
+          <th>Language</th>
+        </tr>
+      </thread>
+      <tbody>
+        <tr>
+          <td>
+            <%= @response["tweet_text"]%>
+          </td>
+          <td>
+           <%= @response["language"]%>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+ <div class="well">
+  <b>Sentiment Analysis Score</b>
+  <% sentiment_analysis_result = @response["sentiment_analysis"] %>
+  <table class="table">
+    <thread>
+      <tr>
+        <% sentiment_analysis_result.keys.each do |key| %>
+        <% if key != "aggregate" %>
+        <th><%= key%></th>
+        <% end %>
+        <% end %>
+      </tr>
+    </thread>
+    <tbody>
+      <tr>
+        <% sentiment_analysis_result.keys.each do |key| %>
+        <% if key != "aggregate" %>
+        <% score = "none" %>
+        <% score = sentiment_analysis_result[key][0]["score"] if sentiment_analysis_result[key].size != 0 %>
+        <td><%=score%></td>
+        <% end %>
+        <% end %>
+      </tr>
+      <tr>
+        <td><b>Agregate Score</b></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Score</td>
+        <td>Sentiment</td>
+      </tr>
+      <tr>
+        <td><%= sentiment_analysis_result["aggregate"]["score"]%></td>
+        <% sentiment = sentiment_analysis_result["aggregate"]["sentiment"] %>
+        <td>
+          <div class="<%= sentiment%>">
+            <strong>
+              <%= sentiment%>
+            </strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="well">
+  <b>Top Sentiment Driving Words</b>
+  <table class="table">
+    <thread>
+      <tr>
+        <th>Sentiment Type</th>
+        <th>Words</th>
+      </tr>
+    </thread>
+    <tbody>
+      <tr>
+        <td>
+          positive
+        </td>
+        <td>
+          <% if @response["sentiment_words_positive"].size == 0 %>
+          none
+          <% else %>
+          <%= @response["sentiment_words_positive"]%>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          negative
+        </td>
+        <td>
+          <% if @response["sentiment_words_negative"].size == 0 %>
+          none
+          <% else %>
+          <%= @response["sentiment_words_negative"]%>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="well">
+  <b>Highlated Text</b><hr>
+  <p><%= raw @response["text_highlate"] %></p>
+</div>
+<%= link_to "Home", root_path, class:"input-medium btn btn-info"%>

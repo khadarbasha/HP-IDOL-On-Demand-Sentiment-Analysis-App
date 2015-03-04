@@ -1,0 +1,24 @@
+<div class="span6 offset1">
+  <table class="table table-bordered table-striped table-hover">
+    <thread>
+      <tr>
+        <th>#</th>
+        <th>Tweet</th>
+        <th>Language</th>
+        <th>Sentiment</th>
+      </tr>
+    </thread>
+    <tbody>
+      <% @api_responses.each_with_index do |api_response,index|%>
+      <tr>
+        <td><%= index %></td>
+        <% length = (api_response["text"].size > 30) ? 30 : -1  %>
+        <td> <%= link_to api_response["text"][0..length], tweet_view_path(api_response["id"]), :target => "_blank"%></td>
+        <td><%= api_response["language"]%></td>
+        <% sentiment = api_response["sentiment_analysis"]["aggregate"]["sentiment"] %>
+        <td><strong><div class="<%= sentiment%>"><%= sentiment%></div></strong></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
